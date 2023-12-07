@@ -1,28 +1,27 @@
-//class ของโล่
 public class Shield {
     protected int level;
     protected double defense, s;
 
-    //constructor
+    //constructor รับ level และพลังป้องกันเริ่มต้นของโล่
     Shield(int level, int s){
-        this.level = level; //level ของโล่
-        this.s = s; //พลังป้องกันเริ่มต้นของโล่
+        this.level = level;
+        this.s = s;
         update_state();
     }
 
     public int getLevelShield(){
         return level;
-    } //level ของโล่
+    }
 
     public double getDefenseShield(){
         return defense;
-    } //พลังป้องกันของโล่
+    }
 
-    public void level_up(){ //เพิ่ม level ของโล่
+    public void level_up(){
         level++;
         update_state();
     }
 
-    //update defense ของโล่ (พลังป้องกันของผู้เล่นเพิ่มขึ้น)
+    //คิด defense จาก level ของโล่ ทำให้พลังป้องกันของตัวละครเพิ่มขึ้น
     private void update_state(){ defense = s * (1 + 0.05 * (level - 1)); }
 }

@@ -1,5 +1,5 @@
-public interface Accessories { //ประกาศ interface ที่ชื่อว่า Accessories
-    void upState(); //อัพเดทสถานะของ Accessories
-    String getClassName(); //แสดงชื่อประเภทของ Accessories
-    String getName(); //แสดงชิ่อผู้เล่นที่สวมใส่  Accessories
+public interface Accessories {
+    void upState(); //function update ค่าพลัง
+    String getClassName(); //function รับชื่อ class
+    String getName(); //function รับชื่อ
 }
