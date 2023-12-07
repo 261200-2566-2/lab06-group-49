@@ -3,18 +3,20 @@ public class Ring implements Accessories{
     protected String className;
     protected double damage, d;
 
+    //constructor รับชื่อและพลังโจมตีเริ่มต้นของแหวน
     Ring(String name, double d){
-        this.name = name; //ชื่อของผู้เล่น
+        this.name = name;
         className = "Ring";
-        this.d = d; //พลังโจมตีเริ่มต้นของแหวน
+        this.d = d;
     }
 
-    @Override
+    @Override //function update พลังโจมตีของแหวน
     public void upState() { //update damage ของแหวน (พลังโจมตีของผู้เล่นเพิ่มขึ้น)
         damage = d*2;
     }
 
-    public double getDamageRing() { //พลังโจมตีของแหวน
+    //function ส่งค่าพลังโจมตีของแหวน
+    public double getDamageRing() {
         upState();
         return damage;
     }
@@ -22,10 +24,10 @@ public class Ring implements Accessories{
     @Override
     public String getClassName() {
         return className;
-    } //แสดงชื่อประเภทของ Accessories นี้ ในที่นี้คือ "Ring"
+    }
 
     @Override
     public String getName() {
         return name;
-    } //แสดงชิ่อผู้เล่นที่สวมใส่  Accessories นี้
+    }
 }

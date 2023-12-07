@@ -3,17 +3,19 @@ public class Shoes implements Accessories{
     protected String className;
     protected double defense, s;
 
+    //constructor รับชื่อและพลังป้องกันเริ่มต้นของรองเท้า
     Shoes(String name, double s){
-        this.name = name; //ชื่อของผู้เล่น
+        this.name = name;
         className = "Shoes";
-        this.s = s; //พลังป้องกันเริ่มต้นของรองเท้า
+        this.s = s;
     }
-    @Override
+    @Override //function update พลังป้องกันของรองเท้า
     public void upState() { // //update defense ของรองเท้า (พลังป้องกันของผู้เล่นเพิ่มขึ้น)
         defense += s;
     }
 
-    public double getDefenseShoes() { //พลังป้องกันของรองเท้า
+    //function ส่งค่าพลังป้องกันของรองเท้า
+    public double getDefenseShoes() {
         upState();
         return defense;
     }
@@ -26,5 +28,5 @@ public class Shoes implements Accessories{
     @Override
     public String getName() {
         return name;
-    } //แสดงชิ่อผู้เล่นที่สวมใส่  Accessories นี้
+    }
 }

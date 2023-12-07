@@ -7,76 +7,87 @@ public class char_ implements Character{
     protected Ring e_ring;
     protected Shoes e_shoes;
 
+    //constructor รับชื่อ, level, พลังโจมตี, พลังป้องกัน, ความเร็วพื้นฐาน เป็นค่าเริ่มต้นของตัวละคร
     public char_(String name,int level,double d, double s,double r){
-        this.name = name; //ชื่อของผู้เล่น
-        this.level = level; //level ของผู้เล่น
-        this.d = d; //พลังโจมตีของผู้เล่น
-        this.s = s; //พลังป้องกันของผู้เล่น
-        this.r = r; //ค่าความเร็วพื้นฐานของผู้เล่น (base speed)
-        hp = 100 + 10*(level-1); //ค่าพลังชีวิตของผู้เล่น
-        mana = 50 + 2*(level-1); //ค่าพลังเวทมนตร์ของผู้เล่น
-        e_sword = null; //ไม่ถือดาบ
-        e_shield = null; //ไม่ถือโล่
-        e_ring = null; //ไม่ใส่แหวน
-        e_shoes = null; //ไม่ใส่รองเท้า
+        this.name = name;
+        this.level = level;
+        this.d = d;
+        this.s = s;
+        this.r = r;
+        hp = 100 + 10*(level-1);
+        mana = 50 + 2*(level-1);
+        e_sword = null;
+        e_shield = null;
+        e_ring = null;
+        e_shoes = null;
     }
 
+    /* update ข้อมูลของตัวละคร โดยค่าพลังต่างๆจะมีการคำนวณโดยใช้ level ดาบ,โล่ ทำให้ความเร็วสูงสุดลดลง
+    ดาบ,แหวน ทำให้พลังโจมตีของตัวละครเพิ่มขึ้น โล่,รองเท้า ทำให้พลังป้องกันของผู้เล่นมากขึ้น */
     private void update_state(){
-        max_hp = 100 + 10*(level-1); //ค่า max hp ของผู้เล่น
-        max_mana = 50 + 2*(level-1); //ค่า max mana ของผู้เล่น
-        max_speed = r + (r * (0.1 + 0.03*(level-1))); //ค่า max speed ของผู้เล่น
-        damage = d * (1 + 0.1*(level-1)); //ค่า damage (โจมตี)
-        defense = s * (1 + 0.05*(level-1)); //ค่า defense (ป้องกัน)
-        if(e_sword != null){ //ถ้าผู้เล่นถือดาบ
-            damage = damage + e_sword.getDamageSword(); //พลังโจมตีเพิ่มขึ้น
-            max_speed -= (0.1 + 0.04*e_sword.getLevelSword()); //ค่า max speed ลดลง
+        max_hp = 100 + 10*(level-1);
+        max_mana = 50 + 2*(level-1);
+        max_speed = r + (r * (0.1 + 0.03*(level-1)));
+        damage = d * (1 + 0.1*(level-1));
+        defense = s * (1 + 0.05*(level-1));
+        if(e_sword != null){
+            damage = damage + e_sword.getDamageSword();
+            max_speed -= (0.1 + 0.04*e_sword.getLevelSword());
         }
-        if(e_shield != null){ //ถ้าผู้เล่นถือโล่
-            defense = defense + e_shield.getDefenseShield(); //พลังป้องกันเพิ่มขึ้น
-            max_speed -= (0.1 + 0.08*e_shield.getLevelShield()); //ค่า max speed ลดลง
+        if(e_shield != null){
+            defense = defense + e_shield.getDefenseShield();
+            max_speed -= (0.1 + 0.08*e_shield.getLevelShield());
         }
-        if(e_ring != null){ //ถ้าผู้เล่นใส่แหวน
-            damage = damage + e_ring.getDamageRing(); //พลังโจมตีเพิ่มขึ้น
+        if(e_ring != null){
+            damage = damage + e_ring.getDamageRing();
         }
-        if(e_shoes != null){ //ถ้าผู้เล่นใส่รองเท้า
-            defense = defense + e_shoes.getDefenseShoes(); //พลังป้องกันเพิ่มขึ้น
+        if(e_shoes != null){
+            defense = defense + e_shoes.getDefenseShoes();
         }
-        if(max_speed < 0 ){ //ถ้าค่า max speed น้อยกว่า 0
-            max_speed = 0; //set max speed = 0
+        if(max_speed < 0 ){
+            max_speed = 0;
         }
     }
 
-    public void equipSword(Sword sword){ //function ถือดาบ
-        unequipSword(); //เรียกใช้ function unequipSword() ก่อน (วางดาบก่อน)
+    //function ให้ตัวละครถือดาบ ซึ่งจะลดค่า max_speed และเพิ่มพลังโจมตีของตัวละคร
+    public void equipSword(Sword sword){
+        unequipSword();
         e_sword = sword;
     }
 
-    public void unequipSword() { e_sword = null;} //function วางดาบ
+    //function ให้ตัวละครวางดาบ ค่า max_speed และพลังโจมตีกลับมาเท่าเดิม
+    public void unequipSword() { e_sword = null;}
 
-    public void equipShield(Shield shield){ //function ถือโล่
-        unequipShield(); //เรียกใช้ function unequipShield() ก่อน (วางโล่ก่อน)
+    //function ให้ตัวละครถือโล่ ซึ่งจะลดค่า max_speed และเพิ่มพลังป้องกันของตัวละคร
+    public void equipShield(Shield shield){
+        unequipShield();
         e_shield = shield;
     }
 
-    public void unequipShield() { e_shield = null;} //function วางโล่
+    //function ให้ตัวละครวางโล่ ค่า max_speed และพลังป้องกันกลับมาเท่าเดิม
+    public void unequipShield() { e_shield = null;}
 
+    //function ให้ตัวละครใส่แหวน เมื่อใส่แล้วพลังโจมตีของตัวละครจะเพิ่มขึ้น
     public void equipRing(Ring ring) {
-        unequipRing(); //เรียกใช้ function unequipRing() ก่อน
+        unequipRing();
         e_ring = ring;
     }
 
+    //function ให้ตัวละครถอดแหวน ทำให้พลังโจมตีกลับมาเท่าเดิม
     public void unequipRing() { e_ring = null; } //function เลิกใช้แหวน
 
+    //function ให้ตัวละครใส่รองเท้า เมื่อใส่แล้วพลังป้องกันของตัวละครจะเพิ่มขึ้น
     public void equipShoes(Shoes shoes) {
         unequipShoes(); //เรียกใช้ function unequipShoes() ก่อน
         e_shoes = shoes;
     }
 
+    //function ให้ตัวละครถอดรองเท้า ทำให้พลังป้องกันกลับมาเท่าเดิม
     public void unequipShoes() { e_shoes = null; } //function เลิกใช้รองเท้า
 
-    @Override
+    @Override //function แสดงข้อมูลของตัวละคร
     public void showState() {
-        update_state(); //เรียกใช้ function update_state() เพื่อ update ค่าต่างๆ แล้วแสดงค่านั้น
+        update_state();
         System.out.println("|<------------------------------>|");
         System.out.println("    Name : " + name + " (Level " + level + ")");
         System.out.println("    HP/Max Hp ❤\uFE0F : " + hp + "/" + max_hp);
@@ -85,41 +96,41 @@ public class char_ implements Character{
         System.out.println("    Max Speed : " + max_speed);
         System.out.println("    Damage \uD83D\uDDE1\uFE0F: " + damage);
         System.out.println("    Defense \uD83D\uDEE1\uFE0F: " + defense);
-        if(e_sword != null){ //ถ้าผู้เล่นถือดาบ
+        if(e_sword != null){
             System.out.println("    equipSword");
         }
-        if(e_shield != null){ //ถ้าผู้เล่นถือโล่
+        if(e_shield != null){
             System.out.println("    equipShield");
         }
-        if(e_ring != null){ //ถ้าผู้เล่นใช้แหวน
+        if(e_ring != null){
             System.out.println("    equipRing");
         }
-        if(e_shoes != null){ //ถ้าผู้เล่นใช้รองเท้า
+        if(e_shoes != null){
             System.out.println("    equipShoes");
         }
         System.out.println("|<------------------------------>|");
         System.out.println(" ");
     }
 
-    @Override
-    public void attack(char_ p){ p.takeDamage(damage); } //function โจมตี
+    @Override //function โจมตี โดยรับค่าเป็นตัวละครฝ่ายตรงข้าม
+    public void attack(char_ p){ p.takeDamage(damage); }
 
     @Override
-    public void level_up() { level++; } //เพิ่ม level ของผู้เล่น
+    public void level_up() { level++; }
 
 
-    @Override
-    public void takeDamage(double d){ //function แสดงค่าพลังชีวิตหลังจากถูกโจมตี
-        double dam = defense - d; //ค่าความเสียหาย = ค่าพลังป้องกัน - ค่าพลังโจมตีที่ได้รับ
-        if(e_shoes != null){ // ถ้า e_shoes มีค่าไม่ใช่ null
-            dam /= 2; // จะทำการลดค่าความเสียหายลงครึ่งหนึ่ง
+    @Override //function รับพลังโจมตี ทำให้ hp ลดลง และหากผู้เล่นสวมรองเท้า ค่าความเสียหายที่ได้รับจะลดลงเหลือครึ่งหนึ่ง
+    public void takeDamage(double d){
+        double dam = defense - d;
+        if(e_shoes != null){
+            dam /= 2;
         }
-        if(dam > 0){ //ถ้าค่าความเสียหาย > 0 (defense > d)
-            dam = 0; //ให้ค่าความเสียหายเป็น 0
+        if(dam > 0){
+            dam = 0;
         }
-        hp += dam; //ค่าพลังชีวิตลดลง (ค่าความเสียหายต้องติดลบ เนื่องจากถูกโจมตี)
-        if(hp < 0){ //ถ้าค่าพลังชีวิต น้อยกว่า 0
-            hp = 0; //ให้ค่าพลังชีวิตเหลือ 0
+        hp += dam;
+        if(hp < 0){
+            hp = 0;
         }
     }
 }
